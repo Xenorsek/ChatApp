@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  chapapp.api:
+    image: ${DOCKER_REGISTRY-}chatappapi
+    ports:
+      - "5000:80"    # Przekierowanie portu 5000 hosta na port 80 kontenera
+      - "5001:443"   # Przekierowanie portu 5001 hosta na port 443 kontenera
+    build:
+      context: .
+      dockerfile: ChatApp.API/Dockerfile
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "YourStrong(!)Password"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+
+  redis:
+    image: redis
